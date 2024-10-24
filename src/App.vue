@@ -1,9 +1,10 @@
 <script setup lang="ts">
 import HelloWorld from './components/HelloWorld.vue'
 import TheWelcome from './components/TheWelcome.vue'
-import { useCounterStore } from './stores/counter'
+import { useJobsStore } from './stores/jobs'
 
-const counterStore = useCounterStore()
+const jobsStore = useJobsStore()
+
 </script>
 
 <template>
@@ -23,11 +24,6 @@ const counterStore = useCounterStore()
 
   <main>
     <TheWelcome />
-    <div>
-      <p>Count: {{ counterStore.count }}</p>
-      <p>Double Count: {{ counterStore.doubleCount }}</p>
-      <button @click="counterStore.increment">Increment</button>
-    </div>
   </main>
 </template>
 
