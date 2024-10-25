@@ -19,6 +19,28 @@ export type Data = Readonly<{
   jobs: ReadonlyArray<Job>
 }>
 
+type TimeSlot = Readonly<{
+  startTime: number;
+  duration: number;
+}>;
+
+export type AvailableTimeSlots = TimeSlot;
+
+export type OccupiedSlot = Readonly<{
+  jobId: string;
+  taskId: string;
+}> & TimeSlot;
+
+export type MachineTimeTable = Readonly<{
+  type: TaskName;
+  occupiedSlots: readonly OccupiedSlot[];
+  availableSlots: readonly AvailableTimeSlots[];
+}> & TimeSlot;
+
+export type AvailableMachine = Readonly<{
+  type: TaskName;
+}> & TimeSlot;
+
 function isTask(something: unknown): something is Task {
   return (
     something !== null &&
