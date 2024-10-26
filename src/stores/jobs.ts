@@ -29,6 +29,13 @@ const availableMachines: AvailableMachine[] = [
 export const useJobsStore = defineStore('counter', () => {
   const loading = ref(true);
   const timeTables = ref<readonly MachineTimeTable[]>([]);
+  const timeLines = ref(availableMachines.reduce((acc, machine) => {
+    return {
+      from: Math.min(acc.from, machine.startTime),
+      to: Math.max(acc.to, machine.startTime + machine.duration),
+    }
+  }, { from: availableMachines[0].startTime, to: availableMachines[0].startTime + availableMachines[0].duration }));
+  const hoursQuantity = ref(timeLines.value.to - timeLines.value.from);
 
   fetch('src/data/data.json').then(
     data => {
@@ -49,7 +56,7 @@ export const useJobsStore = defineStore('counter', () => {
     }
   )
 
-  return { loading, timeTables }
+  return { loading, timeLines, hoursQuantity, timeTables }
 })
 
 export function fillMachinesTimeTables(availableMachines: readonly AvailableMachine[], jobs: readonly Job[]): readonly MachineTimeTable[] {
