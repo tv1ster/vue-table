@@ -1,9 +1,7 @@
 <script setup lang="ts">
 import { useJobsStore } from '@/stores/jobs'
-import { j } from 'vite/dist/node/types.d-aGj9QkWt'
 
 const jobsStore = useJobsStore()
-console.log('### jobsStore.hoursQuantity', jobsStore.hoursQuantity)
 </script>
 
 <template>
