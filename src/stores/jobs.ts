@@ -7,6 +7,7 @@ import {
   type MachineTimeTable,
   TaskName
 } from './types'
+import { data } from '@/data/data'
 
 const availableMachines: AvailableMachine[] = [
   {
@@ -29,7 +30,7 @@ const availableMachines: AvailableMachine[] = [
 export const useJobsStore = defineStore('counter', () => {
   const loading = ref(true);
   const timeTables = ref<readonly MachineTimeTable[]>([]);
-  const hoveredJob = ref<Job | null>(null);
+  const hoveredJob = ref<string | null>(null);
   const timeLines = ref(availableMachines.reduce((acc, machine) => {
     return {
       from: Math.min(acc.from, machine.startTime),
@@ -37,28 +38,37 @@ export const useJobsStore = defineStore('counter', () => {
     }
   }, { from: availableMachines[0].startTime, to: availableMachines[0].startTime + availableMachines[0].duration }));
   const hoursQuantity = ref(timeLines.value.to - timeLines.value.from);
-  const hoverJob = (job: Job | null) => {
+  const hoverJob = (job: string | null) => {
     hoveredJob.value = job;
   }
 
-  fetch('src/data/data.json').then(
-    data => {
-      return data.json();
-    }
-  ).then(
-    data => {
-      if (!isValidData(data)) {
-        throw new Error('Invalid data format')
-      }
-      loading.value = false;
-      timeTables.value = fillMachinesTimeTables(availableMachines, data.jobs);
-      console.log('timetables:', fillMachinesTimeTables(availableMachines, data.jobs))
-    }
-  ).catch(
-    error => {
-      console.error('Failed to fetch data from json:', error)
-    }
-  )
+  // // TODO: fetch on real server
+  // fetch('src/data/data.json').then(
+  //   data => {
+  //     return data.json();
+  //   }
+  // ).then(
+  //   data => {
+  //     if (!isValidData(data)) {
+  //       throw new Error('Invalid data format')
+  //     }
+  //     loading.value = false;
+  //     timeTables.value = fillMachinesTimeTables(availableMachines, data.jobs);
+  //     console.log('timetables:', fillMachinesTimeTables(availableMachines, data.jobs))
+  //   }
+  // ).catch(
+  //   error => {
+  //     console.error('Failed to fetch data from json:', error)
+  //   }
+  // )
+
+  if (!isValidData(data)) {
+    throw new Error('Invalid data format')
+  }
+  loading.value = false;
+  timeTables.value = fillMachinesTimeTables(availableMachines, data.jobs);
+  console.log('timetables:', fillMachinesTimeTables(availableMachines, data.jobs))
+
 
   return { loading, timeLines, hoursQuantity, timeTables, hoveredJob, hoverJob };
 })
