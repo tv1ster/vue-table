@@ -50,10 +50,11 @@ console.log('### jobsStore.hoursQuantity', jobsStore.hoursQuantity)
             :style="{
               'grid-column': `${(occupiedSlot.startTime - jobsStore.timeLines.from + 1) * 4 + 1} / span ${occupiedSlot.duration * 4}`,
               'grid-row': index + 2,
+              'background-color': occupiedSlot.color,
             }"
           >
-            <div>{{ occupiedSlot.jobId }}</div>
-            <div>{{ occupiedSlot.taskId }}</div>
+            <div class="task-job">{{ occupiedSlot.jobId }}</div>
+            <div class="task-name">{{ occupiedSlot.taskId }}</div>
           </div>
         </template>
       </div>
@@ -77,7 +78,24 @@ console.log('### jobsStore.hoursQuantity', jobsStore.hoursQuantity)
   width: v-bind(jobsStore.hoursQuantity * 150 + 20 + 'px');
 }
 .table-header-column,
-.table-header-row{
+.table-header-row {
   background-color: #f0f0f0;
+}
+.task-job,
+.task-name {
+  font-size: 0.8em;
+  font-weight: 700;
+  text-align: center;
+  white-space: nowrap;
+  color: white;
+  text-shadow:
+    0.05em 0 black,
+    0 0.05em black,
+    -0.05em 0 black,
+    0 -0.05em black,
+    -0.05em -0.05em black,
+    -0.05em 0.05em black,
+    0.05em -0.05em black,
+    0.05em 0.05em black;
 }
 </style>

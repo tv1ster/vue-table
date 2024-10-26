@@ -69,6 +69,7 @@ export function fillMachinesTimeTables(availableMachines: readonly AvailableMach
   return jobs.reduce((machines, job) => {
     let prevTaskEndTime = 0;
     const newMachines: MachineTimeTable[] = [...machines];
+    const color = getRandomColor();
     job.tasks.forEach(task => {
       let changed = false;
       const machine = machines.find(machine => machine.type === task.taskName);
@@ -105,6 +106,7 @@ export function fillMachinesTimeTables(availableMachines: readonly AvailableMach
                 duration: task.taskDuration,
                 jobId: job.jobId,
                 taskId: task.taskId,
+                color,
               },
             ],
           };
@@ -120,3 +122,7 @@ export function fillMachinesTimeTables(availableMachines: readonly AvailableMach
     return newMachines;
   }, emptyMachines);
 }
+
+const getRandomColor = (): string => {
+  return '#' + (Math.random() * 0xfffff * 1000000).toString(16).slice(0, 6);
+};

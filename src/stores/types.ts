@@ -29,6 +29,7 @@ export type AvailableTimeSlots = TimeSlot;
 export type OccupiedSlot = Readonly<{
   jobId: string;
   taskId: string;
+  color: string;
 }> & TimeSlot;
 
 export type MachineTimeTable = Readonly<{
