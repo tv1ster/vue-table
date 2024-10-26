@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { useJobsStore } from '@/stores/jobs'
+import { j } from 'vite/dist/node/types.d-aGj9QkWt'
 
 const jobsStore = useJobsStore()
 console.log('### jobsStore.hoursQuantity', jobsStore.hoursQuantity)
@@ -51,7 +52,11 @@ console.log('### jobsStore.hoursQuantity', jobsStore.hoursQuantity)
               'grid-column': `${(occupiedSlot.startTime - jobsStore.timeLines.from + 1) * 4 + 1} / span ${occupiedSlot.duration * 4}`,
               'grid-row': index + 2,
               'background-color': occupiedSlot.color,
+              'outline': jobsStore.hoveredJob === occupiedSlot.jobId ? '2px solid black' : 'none',
+              'z-index': jobsStore.hoveredJob === occupiedSlot.jobId ? 2 : 1,
             }"
+            @mouseover="jobsStore.hoverJob(occupiedSlot.jobId)"
+            @mouseleave="jobsStore.hoverJob(null)"
           >
             <div class="task-job">{{ occupiedSlot.jobId }}</div>
             <div class="task-name">{{ occupiedSlot.taskId }}</div>
@@ -71,7 +76,7 @@ console.log('### jobsStore.hoursQuantity', jobsStore.hoursQuantity)
 .table-wrapper {
   width: 100%;
   overflow-y: auto;
-  padding-bottom: 5px;
+  padding: 5px;
 }
 .table {
   display: grid;
@@ -81,6 +86,9 @@ console.log('### jobsStore.hoursQuantity', jobsStore.hoursQuantity)
 .table-header-row {
   background-color: #f0f0f0;
 }
+.table-cell {
+  cursor: pointer;
+}
 .task-job,
 .task-name {
   font-size: 0.8em;
@@ -89,13 +97,13 @@ console.log('### jobsStore.hoursQuantity', jobsStore.hoursQuantity)
   white-space: nowrap;
   color: white;
   text-shadow:
-    0.05em 0 black,
-    0 0.05em black,
-    -0.05em 0 black,
-    0 -0.05em black,
-    -0.05em -0.05em black,
-    -0.05em 0.05em black,
-    0.05em -0.05em black,
-    0.05em 0.05em black;
+    1px 0 black,
+    0 1px black,
+    -1px 0 black,
+    0 -1px black,
+    -1px -1px black,
+    -1px 1px black,
+    1px -1px black,
+    1px 1px black;
 }
 </style>
