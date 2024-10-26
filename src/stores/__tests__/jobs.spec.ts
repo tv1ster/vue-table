@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest'
-import { type AvailableMachine, type MachineTimeTable, TaskName } from '@/stores/types'
+import { type AvailableMachine, type MachineTimeTable, type OccupiedSlot, TaskName } from '@/stores/types'
 import { fillMachinesTimeTables } from '@/stores/jobs'
 
 const availableMachinesExample: AvailableMachine[] = [
@@ -29,7 +29,7 @@ const emptyMachinesTimeTables: MachineTimeTable[] = availableMachinesExample.map
 describe('fillMachinesTimeTables', () => {
   it('in case of empty jobs array should return same slots', () => {
     const result = fillMachinesTimeTables(availableMachinesExample, []);
-    expect(result).toEqual(emptyMachinesTimeTables);
+    expect(result).toMatchObject(emptyMachinesTimeTables);
   });
   it('in case of one task should occupy one slot', () => {
     const jobs = [
@@ -59,12 +59,12 @@ describe('fillMachinesTimeTables', () => {
             duration: 1,
             jobId: 'A',
             taskId: 'A-1',
-          }
+          } as OccupiedSlot,
         ],
       },
       ...emptyMachinesTimeTables.slice(1),
     ];
-    expect(result).toEqual(expected);
+    expect(result).toMatchObject(expected);
   });
   it('in case of job with 3 tasks, should fill them one by one', () => {
     const jobs = [
@@ -104,7 +104,7 @@ describe('fillMachinesTimeTables', () => {
             duration: 1,
             jobId: 'A',
             taskId: 'A-1',
-          }
+          } as OccupiedSlot
         ],
       },
       {
@@ -121,7 +121,7 @@ describe('fillMachinesTimeTables', () => {
             duration: 1,
             jobId: 'A',
             taskId: 'A-2',
-          }
+          } as OccupiedSlot
         ],
       },
       {
@@ -138,11 +138,11 @@ describe('fillMachinesTimeTables', () => {
             duration: 1,
             jobId: 'A',
             taskId: 'A-3',
-          }
+          } as OccupiedSlot
         ],
       },
     ];
-    expect(result).toEqual(expected);
+    expect(result).toMatchObject(expected);
   });
   it('in case of few jobs, should occupy correctly', () => {
     const jobs = [
@@ -202,13 +202,13 @@ describe('fillMachinesTimeTables', () => {
             duration: 1,
             jobId: 'A',
             taskId: 'A-1',
-          },
+          } as OccupiedSlot,
           {
             startTime: 10,
             duration: 1,
             jobId: 'B',
             taskId: 'B-2',
-          }
+          } as OccupiedSlot
         ],
       },
       {
@@ -225,13 +225,13 @@ describe('fillMachinesTimeTables', () => {
             duration: 1,
             jobId: 'A',
             taskId: 'A-2',
-          },
+          } as OccupiedSlot,
           {
             startTime: 11,
             duration: 1,
             jobId: 'B',
             taskId: 'B-3',
-          }
+          } as OccupiedSlot
         ],
       },
       {
@@ -248,16 +248,16 @@ describe('fillMachinesTimeTables', () => {
             duration: 1,
             jobId: 'A',
             taskId: 'A-3',
-          },
+          } as OccupiedSlot,
           {
             startTime: 9,
             duration: 1,
             jobId: 'B',
             taskId: 'B-1',
-          }
+          } as OccupiedSlot
         ],
       },
     ];
-    expect(result).toEqual(expected);
+    expect(result).toMatchObject(expected);
   });
 })

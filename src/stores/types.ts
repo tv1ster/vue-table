@@ -19,7 +19,7 @@ export type Data = Readonly<{
   jobs: ReadonlyArray<Job>
 }>
 
-type TimeSlot = Readonly<{
+export type TimeSlot = Readonly<{
   startTime: number;
   duration: number;
 }>;
